@@ -10,53 +10,56 @@ var APIkey=fs.readFileSync('APIkey.txt');
 //create a array for final push
 var meetingsFinal=[];
 
-//for each table row, find td
-$('tbody tr').find('td').each(function(i,elem){
-    
+//select each table row
+$('tbody tr').each(function(i,elem){
+        
       var items={};
-      var MeetingsInfo={};
-      var meetingTimes=[];
       
-  
-   //select the second table cell and load meeting schedules
-   if ($(elem).attr('style')=='border-bottom:1px solid #e3e3e3;width:350px;'){
-     
-     
+     // loop through each table row 
+    $(elem).find('td').each(function(i,elem){
+        
+       //find the td that matches the attr style of cell 2  
+      if ($(elem).attr('style') == 'border-bottom:1px solid #e3e3e3;width:350px;'){
+          
        //store all the content from cell 2 into data
        var data = $(elem).eq(0).html().replace('\n                   \t \t\n\t\t\t\t  \t   ','')
                                    .replace('\n                    \t\n\t\t\t\t  \t   ','')
                                    .split('<br>');
        
-    //   var Times={}; 
-    // loop through each line in data
+
+        //create a set for all the meeting hours from cell 2 in each row 
+       items.MeetingTimesArr = [];
+        
+        //loop through data
        for (var j = 0; j < data.length; j++){
+           
         //ignore empty lines
           if (data[j].match(/From/gi) !== null){
               
             var eachMeeting={}; 
             
-            //store each non-empty line of text into a var line
+            //store all the meeting time into a variable line
              var line = data[j].replace(/[\r\n\t\/]/g, '').replace(/(<b>)/g, '');
-            //  console.log(line)
-            //  eachMeeting.Time=line.split('Meeting')[0].split('Special')[0].trim(); 
-            //  console.log(line.length);
+            //store all the meeting type into line2
              var line2 = data[j+1];
+             //store all the meeting interest into line3
              var line3 = data[j+2];
+             
             //  console.log(line);
              eachMeeting.Day=line.split('From')[0].trim();
              eachMeeting.Start=line.split('From')[1].split('to')[0].trim();
              eachMeeting.End=line.split('to')[1].trim();
              eachMeeting.Type = line2.slice(20,line2.length).trim();
              eachMeeting.Interest = line3.slice(23,line2.length).trim();
-
+             
+             items.MeetingTimesArr.push(eachMeeting)
           }
           
-       }
-         meetingTimes.push(eachMeeting);
-         items.MeetingTimes=meetingTimes;
-      
-   }
-    
+        }
+         
+     }
+        
+        
     //get the content from cell 1  
     if($(elem).attr('style')=='border-bottom:1px solid #e3e3e3; width:260px'){
          
@@ -68,13 +71,15 @@ $('tbody tr').find('td').each(function(i,elem){
    
          items.Content = $(elem).eq(0).find('b').text().trim();
     
-        //  items.MeetingTimes=meetingTimes;
     }
+    
+    })
+  
+      
+      
+       meetingsFinal.push(items);
     //   console.log(items);
-      MeetingsInfo=items;
-     
-      meetingsFinal.push(MeetingsInfo);
-//      //  console.log(meetingsFinal);
+
  });
 
  //get rid of all the empty objects
@@ -97,5 +102,5 @@ async.eachObject(meetingsFinalCorrected, function(value, key, callback) {
     // console.log(meetingsFinalCorrected);
 
     // Write the meetings data to output.txt
-    fs.writeFileSync('/home/ubuntu/workspace/data/week5/output.txt', JSON.stringify(meetingsFinalCorrected));
+    fs.writeFileSync('/home/ubuntu/workspace/data/week0506/output.txt', JSON.stringify(meetingsFinalCorrected));
  });

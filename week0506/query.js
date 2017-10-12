@@ -4,9 +4,14 @@ var dbName = 'zone8meetings';
 var collName = 'meetingInfo';
 
 var myQuery =[
-    { $match:{Day: 'Tuesday'}},
-    { $match:{ $or: [{Start:'7 PM'}, {Start: '8 PM'}]}} 
-    ];
+    
+      { $match : { "MeetingTimesArr.Day" : "Tuesdays" } },
+      { $unwind :  "$MeetingTimesArr" }, //get each object seperated from the set
+      { $match: { "MeetingTimesArr.Day" : "Tuesdays" }},
+      { $match: { $or: [{"MeetingTimesArr.Start" : "7:00 PM"}, {"MeetingTimesArr.Start" : "8:00 PM"}]} }
+    
+     
+    ]
 
 
 // Connection URL

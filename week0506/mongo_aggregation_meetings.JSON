@@ -1,0 +1,20 @@
+[
+    {
+        "_id": "59dea0d758e8bdbfd3b5f3ac",
+        "Address": "219 West 132nd Street,New York, NY",
+        "WheelchairAccess": "",
+        "Church": "St. Aloysius School",
+        "Content": "RIVERTON - Riverton",
+        "MeetingTimesArr": {
+            "Day": "Tuesdays",
+            "Start": "8:00 PM",
+            "End": "9:00 PM",
+            "Type": "",
+            "Interest": ""
+        },
+        "latLong": {
+            "lat": 40.8139208,
+            "lng": -73.9458684
+        }
+    }
+]
