@@ -1,0 +1,10 @@
+$ psql --host=shidb.caa6zulxualj.us-east-2.rds.amazonaws.com --port=5432 --username=shiy918 --password --dbname=shidatabase
+
+shidatabase=> CREATE TABLE sensorData(
+lightsensor int,
+magnetsensor int,
+sensortime timestamp DEFAULT current_timestamp);   
+
+shidatabase=> INSERT INTO sensorData VALUES(2103,1,DEFAULT);
+
+
