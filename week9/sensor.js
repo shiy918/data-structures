@@ -11,7 +11,7 @@ var device_url = 'https://api.particle.io/v1/devices/' + device_id + '/' + parti
 var db_credentials = new Object();
 db_credentials.user = 'shiy918';
 db_credentials.host = process.env.AWSRDS_EP;
-db_credentials.database = 'shidatabase';
+db_credentials.database = 'shidb';
 db_credentials.password = process.env.AWSRDS_PW;
 db_credentials.port = 5432;
 
@@ -28,7 +28,7 @@ var getAndWriteData = function() {
         client.connect();
 
         // Construct a SQL statement to insert sensor values into a table
-        var thisQuery = "INSERT INTO sensordata VALUES (" + Light + "," + Magnet + ", DEFAULT);";
+        var thisQuery = "INSERT INTO sensorData VALUES (" + Light + "," + Magnet + ", DEFAULT);";
         console.log(thisQuery); // for debugging
 
         // Connect to the AWS RDS Postgres database and insert a new row of sensor values
