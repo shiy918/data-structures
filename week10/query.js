@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
              EXTRACT(MONTH FROM sensortime AT TIME ZONE 'America/New_York') as sensormonth, 
              lightsensor, 
              magnetsensor,
-             FROM sensordata,
+             FROM sensors,
              GROUP BY sensormonth, sensorday;`;
              
     client.connect();
