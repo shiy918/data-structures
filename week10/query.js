@@ -17,8 +17,10 @@ app.get('/', function(req, res) {
     // SQL query
     var q = `SELECT EXTRACT(DAY FROM sensortime AT TIME ZONE 'America/New_York') as sensorday, 
              EXTRACT(MONTH FROM sensortime AT TIME ZONE 'America/New_York') as sensormonth, 
-             lightsensor, 
-             magnetsensor,
+             max(lightsensor) as max_light,
+             min(lightsensor) as min_light,
+             avg(lightsensor) as avg_light,
+             sum(magnetsensor) as num_openCurtain,
              FROM sensors,
              GROUP BY sensormonth, sensorday;`;
              
