@@ -20,8 +20,8 @@ app.get('/', function(req, res) {
              max(lightsensor) as max_light,
              min(lightsensor) as min_light,
              avg(lightsensor) as avg_light,
-             sum(magnetsensor) as num_openCurtain,
-             FROM sensors,
+             sum(magnetsensor) as num_openCurtain
+             FROM sensors
              GROUP BY sensormonth, sensorday;`;
              
     client.connect();
