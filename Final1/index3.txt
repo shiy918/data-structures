@@ -54,7 +54,7 @@
 
             for (var i = 0; i < locations.length; i++) {
                 var meeting = locations[i];
-                var myLatLng = new google.maps.LatLng(meeting._id.lat, meeting._id.lng);
+                var myLatLng = new google.maps.LatLng(meeting._id.latLong);
 
                 var contentWindow = makeContent(meetings[i]);
 
