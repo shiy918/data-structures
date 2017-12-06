@@ -76,10 +76,10 @@ app.get('/aa', function(req, res) {
                 Church:"$Church",
                 WheelchairAccess : "$WheelchairAccess",
                 },
-                    meetingDay : { $push : "$Day" },
-                    meetingStartTime : { $push : "$Start" },
-                    meetingEndTime:{ $push: "$End"},
-                    meetingType : { $push : "$Type" }
+                    Day : { $push : "$Day" },
+                    Start : { $push : "$Start" },
+                    End:{ $push: "$End"},
+                    Type : { $push : "$Type" }
             }
             },
             
