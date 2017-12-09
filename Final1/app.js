@@ -46,26 +46,35 @@ app.get('/', function(req, res) {
 app.get('/aa', function(req, res) {
 
     MongoClient.connect(url, function(err, db) {
-        if (err) {return console.dir(err);}
-        // var days =
-        //     ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
-        
-        var dateTimeNow = new Date();
-        var today = dateTimeNow.getDay();
-        var tomorrow;
-        if (today == 6) {tomorrow = 0;}
-        else {tomorrow = today + 1}
-        var hour = dateTimeNow.getHours();
+         if (err) {return console.dir(err);}
+         var days =['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
 
+        var dayIndex = moment.tz(new Date(),"America/New_York").days();
+        var dayNow=days[dayIndex];
+        var tomorrowIndex;
+        if (dayIndex == 6) {tomorrowIndex = 0;}
+        else {tomorrowIndex = dayIndex + 1}
+        var tomorrow=days[tomorrowIndex];
+       
+        var hour =moment.tz(new Date(),"America/New_York").hours() ;
+        
         var collection = db.collection(collName);
     
         collection.aggregate([ // start of aggregation pipeline
             // match by day and time
             
-            // { $match : {"meetingTimes.Day":"Sundays"}},
             { $unwind: "$meetingTimes"},
-            { $match : {"meetingTimes.Day":"Sundays"}},
-            { $match : { $or: [{"meetingTimes.Start":"8:00 AM"},{"meetingTimes.Start":"7:00 PM"}]}},
+            { $match : 
+                { $or : [
+                    { $and: [
+                        { "meetingTimes.Day" : dayNow } , { "meetingTimes.StartHourMil" : { $gte: hour } }
+                    ]},
+                    { $and: [
+                        { "meetingTimes.Day" : tomorrow } , { "meetingTimes.StartHourMil" : { $lte: 4 } }
+                    ]}
+                ]}
+            },
+
                
             
             // group by meeting group
@@ -76,10 +85,10 @@ app.get('/aa', function(req, res) {
                 Church:"$Church",
                 WheelchairAccess : "$WheelchairAccess",
                 },
-                    Day : { $push : "$Day" },
-                    Start : { $push : "$Start" },
-                    End:{ $push: "$End"},
-                    Type : { $push : "$Type" }
+                    Day : { $push : "$meetingTimes.Day" },
+                    Start : { $push : "$meetingTimes.Start" },
+                    End:{ $push: "$meetingTimes.End"},
+                    Type : { $push : "$meetingTimes.Type" }
             }
             },
             
@@ -87,7 +96,7 @@ app.get('/aa', function(req, res) {
             {
                 $group : { _id : { 
                     latLong : "$_id.latLong"},
-                    meetingGroups : { $push : {groupInfo : "$_id", meetingDay : "$Day", meetingStartTime : "$Start", meetingEndTime: "$End",meetingType : "$Type" }}
+                    meetingGroups : { $push : {groupInfo : "$_id", Day : "$Day", Start : "$Start", End: "$End",Type : "$Type" }}
                 }
             }
         

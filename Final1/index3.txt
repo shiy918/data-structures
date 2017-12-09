@@ -11,34 +11,11 @@
                 contentHolder = contentHolder + '<h1 id="firstHeading" class="firstHeading">';
                 contentHolder = contentHolder + cont.meetingGroups[i].groupInfo.Content + '</h1>';
                 
-                for (var j = 0; j < cont.meetingGroups[i].meetingType.length; j++) {
-                    var mt, si;
-                    if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "BB") {
-                        mt = "Big Book ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "B") {
-                        mt = "Beginners ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "C") {
-                        mt = "Closed Discussion ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "S") {
-                        mt = "Step ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "T") {
-                        mt = "Tradition ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "O") {
-                        mt = "Open Meeting ";
-                    }
-                    else if (cont.meetingGroups[i].meetingType[j].split('=')[0] == "OD") {
-                        mt = "Open Discussion ";
-                    }
-                    else {
-                        mt = "";
-                    }
+                for (var j = 0; j < cont.meetingGroups[i].Type.length; j++) {
+                    
+                    var mt=cont.meetingGroups[i].Type[j].split('=')[1];
 
-                    contentHolder = contentHolder + cont.meetingGroups[i].meetingStartTime[j] + ' ' + mt + '<br>';
+                    contentHolder = contentHolder + cont.meetingGroups[i].Start[j] + ' ' + mt + '<br>';
                 }
                 contentHolder = contentHolder + '</p>';
                 contentHolder = contentHolder + '<div class="iw-bottom-gradient"></div>';
