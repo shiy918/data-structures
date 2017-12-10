@@ -51,13 +51,15 @@ $('tbody tr').each(function(i,elem){
             
              var StartHour=line.split('From')[1].split('to')[0].split(':')[0].trim(); 
              eachMeeting.StartHour=parseInt(StartHour);  //8
-             eachMeeting.StartAMPM=line.split('From')[1].split('to')[0].trim().slice(4,7);//
-            
+             eachMeeting.StartAMPM=line.split('From')[1].split('to')[0].trim().slice(4,7).slice(1,3);
+             
+            //  console.log(eachMeeting.StartAMPM);
+             
              eachMeeting.StartMinute=line.split('From')[1].split('to')[0].trim().slice(2,4);//00
            
-              if (eachMeeting.StartAMPM=='AM') { eachMeeting.StartHourMil=eachMeeting.StartHour}
+              if (eachMeeting.StartAMPM=='AM' || eachMeeting.StartAMPM==' A') { eachMeeting.StartHourMil=eachMeeting.StartHour}
+              else if (eachMeeting.StartHour==12 && eachMeeting.StartAMPM==' P'){ eachMeeting.StartHourMil=eachMeeting.StartHour}
               else { eachMeeting.StartHourMil=eachMeeting.StartHour+12 };
-           
              
              eachMeeting.End=line.split('to')[1].trim();
              eachMeeting.Type = line2.slice(20,line2.length).trim();
@@ -97,7 +99,7 @@ $('tbody tr').each(function(i,elem){
  var meetingsZone09 = meetingsZone09.filter(value => Object.keys(value).length !== 0);
 
  meetingsZone09.splice(0,2);
-// console.log(meetingsZone09);
+//  console.log(meetingsZone09);
 
 
 async.eachObject(meetingsZone09, function(value, key, callback) {
