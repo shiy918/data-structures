@@ -8,7 +8,7 @@ var asyncEachObject = require('async-each-object');
 var APIkey=fs.readFileSync('APIkey.txt');
 
 //create a array for final push
-var meetingsZone09=[];
+var meetingsZone10=[];
 
 //select each table row
 $('tbody tr').each(function(i,elem){
@@ -90,19 +90,19 @@ $('tbody tr').each(function(i,elem){
   
       
       
-       meetingsZone09.push(items);
+       meetingsZone10.push(items);
     //   console.log(items);
 
  });
 
  //get rid of all the empty objects
- var meetingsZone09 = meetingsZone09.filter(value => Object.keys(value).length !== 0);
+ var meetingsZone10 = meetingsZone10.filter(value => Object.keys(value).length !== 0);
 
- meetingsZone09.splice(0,2);
+ meetingsZone10.splice(0,2);
 //  console.log(meetingsZone09);
 
 
-async.eachObject(meetingsZone09, function(value, key, callback) {
+async.eachObject(meetingsZone10, function(value, key, callback) {
     
     var apiRequest = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + value.Address.split(' ').join('+') + '&key=' + APIkey;
     request(apiRequest, function(err, resp, body) {
@@ -116,6 +116,6 @@ async.eachObject(meetingsZone09, function(value, key, callback) {
     // console.log(meetingsFinalCorrected);
 
     // Write the meetings data to output.txt
-    fs.writeFileSync('/home/ubuntu/workspace/data/Final1/zone10.json', JSON.stringify(meetingsZone09));
+    fs.writeFileSync('/home/ubuntu/workspace/data/Final1/zone10.json', JSON.stringify(meetingsZone10));
  });
  
