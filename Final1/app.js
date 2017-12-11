@@ -4,15 +4,6 @@ var fs = require('fs');
 var moment = require('moment-timezone'); // npm install moment-timezone
 
 
-// Postgres
-const { Pool } = require('pg');
-var db_credentials = new Object();
-db_credentials.user = 'shiy918';
-db_credentials.host = process.env.AWSRDS_EP;
-db_credentials.database = 'shidb';
-db_credentials.password = process.env.AWSRDS_PW;
-db_credentials.port = 5432;
-
 // Mongo
 var collName = 'meetings';
 var MongoClient = require('mongodb').MongoClient;
@@ -22,28 +13,6 @@ var url = process.env.ATLAS;
 var index1 = fs.readFileSync("index1.txt");
 var index3 = fs.readFileSync("index3.txt");
 
-app.get('/', function(req, res) {
-    // Connect to the AWS RDS Postgres database
-    const client = new Pool(db_credentials);
-
-    // SQL query
-    var q = `SELECT EXTRACT(DAY FROM sensortime AT TIME ZONE 'America/New_York') as sensorday, 
-             EXTRACT(MONTH FROM sensortime AT TIME ZONE 'America/New_York') as sensormonth, 
-             count(*) as num_obs, 
-             max(lightsensor) as max_light, 
-             min(lightsensor) as min_light,
-             avg(lightsensor) as avg_light, 
-             sum(magnetsensor) as num_closedCurtain
-             FROM sensors
-             GROUP BY sensormonth, sensorday;`;
-             
-    client.connect();
-    client.query(q, (qerr, qres) => {
-        res.send(qres.rows);
-        console.log('responded to request');
-    });
-    client.end();
-});
 
 app.get('/aa', function(req, res) {
 
