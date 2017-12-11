@@ -52,7 +52,7 @@ $('tbody tr').each(function(i,elem){
              eachMeeting.Type = line2.slice(20,line2.length).trim();
              eachMeeting.Interest = line3.slice(23,line2.length).trim();
              
-             items.MeetingTimesArr.push(eachMeeting)
+             items.MeetingTimesArr.push(eachMeeting);
           }
           
         }
